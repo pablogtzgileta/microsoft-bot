@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+
+// https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0&tabs=javascript
+// https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.actiontypes?view=botbuilder-dotnet-3.0
 const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
