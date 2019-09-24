@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
-// https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0&tabs=javascript
-// https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.actiontypes?view=botbuilder-dotnet-3.0
 const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter } = require('botbuilder');
+const { BotFrameworkAdapter, UserState, MemoryStorage } = require('botbuilder');
 
 // This bot's main dialog.
 const { MyBot } = require('./bot');
@@ -42,8 +39,14 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
+// For local development, in-memory storage is used.
+// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
+// is restarted, anything stored in memory will be gone.
+const memoryStorage = new MemoryStorage();
+const userState = new UserState(memoryStorage);
+
 // Create the main dialog.
-const myBot = new MyBot();
+const myBot = new MyBot(userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
